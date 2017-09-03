@@ -1,0 +1,167 @@
+﻿@model IEnumerable<NicaWallet.Models.Category>
+
+@{
+    ViewBag.Title = "Categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="white-box">
+    <p>
+        @*@Html.ActionLink("Create New", "Create")*@
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary outline-btn round" data-toggle="modal" data-target="#myModal">
+            <i class="icon-plus" aria-hidden="true"></i>  Crear Nueva Categoria
+        </button>
+    </p>
+    <div class="categories-list">
+
+        @foreach (var item in Model.Where(x => x.IsParent == true))
+        {
+            <div class="item">
+                <div class="column-icon">
+                    <div class="circle " style="background-color: rgb(244, 67, 54);">
+                        <span class="category-icon @item.CategoryIcon"></span>
+                    </div>
+                </div><div class="column-category">
+                    <div class="category-name">@Html.DisplayFor(modelItem => item.CategoryName)</div>
+                    <div class="category-subtitle">
+
+                    </div>
+                </div>
+                <div class="column-toolbar">
+                    <div>
+                        <div class="">
+                            <button data-toggle="tooltip" title="Editar" categoryId="@item.CategoryId" class="btnUpdate btn btn-info outline-btn round"><i class="icon-note" aria-hidden="true"></i></button>
+                            <button data-toggle="tooltip" title="Eliminar" type="button" class="btn btn-danger outline-btn round btnDelete" categoryId="@item.CategoryId" name="Delete" value="Delete"><i class="icon-trash" aria-hidden="true"></i></button>
+                            <button type="button" parentId="@item.CategoryId" class="btn btn-success outline-btn round ModalActive" data-toggle="modal" data-target="#myModal">
+                                <i class="icon-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul>
+                <li>
+                    @foreach (var item2 in Model.Where(x => x.ParentId == item.CategoryId))
+                {
+                        <div class="item sub-item">
+                            <div class="column-icon">
+                                <div class="circle " style="background-color: rgb(158, 158, 158);">
+                                    <span class="category-icon category-icon-menu-filled"></span>
+                                </div>
+                            </div>
+                            <div class="column-category">
+                                <div class="category-name">@item2.CategoryName</div>
+
+                            </div><div class="column-toolbar">
+                                <button data-toggle="tooltip" title="Eliminar" type="button" class="btn btn-danger outline-btn round btnDelete" categoryId="@item2.CategoryId"> <i class="icon-trash" aria-hidden="true"></i></button>
+                                @Html.Hidden("CategoryId", item2.CategoryId)
+
+                                @Html.HiddenFor(modelItem => item.ParentId)
+                                @Html.HiddenFor(modelItem => item.IsParent)
+                            </div>
+                        </div>
+                    }
+                </li>
+            </ul>
+            <hr style="border-color:#f6f6f6" />
+        }
+
+    </div>
+</div>
+
+<!-- Modal Create Category -->
+@using (Html.BeginForm("CreateCategory", "Categories", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Nueva Categoria</h4>
+                </div>
+                <div class="modal-body">
+                    @Html.Label("Nombre Categoria")
+                    @Html.TextBox("CategoryName", "", new { @class = "form-control" })
+                    @Html.Hidden("ParentId")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger outline-btn round " data-dismiss="modal">Cancelar</button>
+                    <input type="submit" class="btn btn-success outline-btn round " name="Crear" value="Crear" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+        $('.ModalActive').click(function () {
+            var p = $(this).attr('parentId');
+            $('input#ParentId').val(p);
+        })
+        //Delete Category
+        $('.btnDelete').click(function () {
+            var categoryId = $(this).attr('categoryId');
+            var url = "/Categories/DeleteCategory";
+            swal({
+                title: "Alerta",
+                text: "Estas seguro que quieres eliminar esta categoria?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                cancelButtonText: "No, cancel plx!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+                function (isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            url: url,
+                            data: { 'categoryId': categoryId },
+                            type: "post",
+                            cache: false
+                        }).success(function (response) {
+                            if (response.ResponseCode == "200") {
+                                swal("Buen trabajo!", "Se elimino correctamente!", "success");
+                            } else {
+                                swal("Aviso!", "No se puede eliminar tiene categorias hija!", "info");
+                            }
+                        }).error(function (error) {
+                            swal("Aviso!", "Ah ocurrido un error, Intentelo de nuevo", "error");
+                        });
+                        return true;
+                    } else {
+                        swal("Cancelled", "Tus datos estan a salvo :)", "error");
+                    }
+                });
+
+        });
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        //Update Category
+        $('.btnUpdate').click(function () {
+            var categoryId = $(this).attr('categoryId');
+            var url = "/Categories/UpdateCategory";
+            $.ajax({
+                url: url,
+                data: { 'categoryId': categoryId },
+                type: "post",
+                cache: false
+            }).success(function (response) {
+                if (response.ResponseCode == "200") {
+                    alert("Bien Hecho se actualizo correctamente")
+                    location.reload();
+                } else {
+                    alert("Ah Ocurrido un error")
+                }
+            }).error(function (error) {
+                alert("Ah ocurrido un error, Intentelo de nuevo");
+                location.reload();
+            });
+            return true;
+        });
+    </script>
+}

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="/assets/css/icons.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
+    <link href="/assets/css/custom.css" rel="stylesheet" />
+
+</head>
+<body>
+    <!-- Pulse Preloader -->
+    <div class="preloader-wrap">
+        <div class="pulse"></div>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.nicescroll.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/plugins/moment/moment.js"></script>
+    <script src="/assets/js/jquery.slimscroll.js"></script>
+    <script src="/assets/js/functions.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

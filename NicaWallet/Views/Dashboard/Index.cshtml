@@ -1,0 +1,237 @@
+﻿@using NicaWallet.Models;
+@{
+
+    ViewBag.Title = "DashBoard";
+    ApplicationDbContext dbContext = new ApplicationDbContext();
+    var accountCount = dbContext.Account.Count();
+    var balance = dbContext.Account.Sum(x => x.Amount);
+    var totalEarning = dbContext.Record.Where(x => x.PaymentType == true).Sum(x => x.Amount);
+    var totalExpenses = dbContext.Record.Where(x => x.PaymentType == false).Sum(x => x.Amount);
+    var expensesByCategory = dbContext.Record.Include("Category").Include("Currency").Where(x => x.PaymentType == false);
+}
+
+<!--Start row-->
+<div class="row">
+    <!--Start info box-->
+    <div class="col-md-3 col-sm-6">
+        <div class="info-box-main">
+            <div class="info-stats">
+                <p>@accountCount</p>
+                <span>Cuentas</span>
+            </div>
+            <div class="info-icon text-primary ">
+                <i class="icon-calculator"></i>
+            </div>
+            <div class="info-box-progress">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100" style="width: 48%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End info box-->
+    <!--Start info box-->
+    <div class="col-md-3 col-sm-6">
+        <div class="info-box-main">
+            <div class="info-stats">
+                <p>C$ @balance</p>
+                <span>Balance</span>
+            </div>
+            <div class="info-icon text-info">
+                <i class="icon-equalizer"></i>
+            </div>
+            <div class="info-box-progress">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100" style="width: 48%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End info box-->
+    <!--Start info box-->
+    <div class="col-md-3 col-sm-6">
+        <div class="info-box-main">
+            <div class="info-stats">
+                <p>+ @totalEarning</p>
+                <span>Total Ingresos</span>
+            </div>
+            <div class="info-icon text-warning">
+                <i class="fa fa-dollar"></i>
+            </div>
+            <div class="info-box-progress">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100" style="width: 48%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End info box-->
+    <!--Start info box-->
+    <div class="col-md-3 col-sm-6">
+        <div class="info-box-main">
+            <div class="info-stats">
+                <p>- @totalExpenses</p>
+                <span>Total Gastos</span>
+            </div>
+            <div class="info-icon text-danger">
+                <i class=" icon-handbag "></i>
+            </div>
+            <div class="info-box-progress">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="100" style="width: 48%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End info box-->
+
+</div>
+<!--End row-->
+@* Cuentas *@
+<div class="row">
+    @foreach (var item in ViewBag.accounts)
+    {
+        <div class="col-md-4">
+            <div class="white-box" style="border-bottom: 6px solid @item.Color">
+                <h2 class="header-title">@item.AccountName</h2>
+                <div class="">
+                    <div class="inbox-inner">
+                        <a href="#">
+                            <div class="inbox-item">
+                                <div class="icon-account-dashboard" style="background-color:@item.Color">
+                                    <i class="category-icon @item.AccountType.AccountIcon"></i>
+                                </div>
+
+                                <div class="inbox-item-info">
+                                    <p class="author">@item.Currency.CurrencyName @item.Amount</p>
+                                    <p class="inbox-message">@item.AccountType.AccountTypeName</p>
+                                    <p class="inbox-date">@item.LastUpdate.ToShortDateString()</p>
+                                    <a href="/Records?accountId=@item.AccountId" data-toggle="tooltip" title="Ver records" style="float:right" class="icon-action-redo"></a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+@* Cuentas *@
+<!--Start row-->
+<div class="row">
+    <div class="col-md-6">
+        <div class="white-box">
+            <h2 class="header-title">Sales Analytics</h2>
+            <ul class="list-inline text-center m-t-10">
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color:#98C1D1;"></i>Iphone</h5>
+                </li>
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #23DBDE;"></i>Ipad</h5>
+                </li>
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #F6DDA0;"></i>Itouch</h5>
+                </li>
+            </ul>
+            <div id="morris-area-chart" style="height:250px;"></div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="white-box">
+            <h2 class="header-title">Total Revenue </h2>
+            <ul class="list-inline text-center m-t-10">
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color:#03A9F3;"></i>Section A</h5>
+                </li>
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #FFAA00;"></i>Section B</h5>
+                </li>
+            </ul>
+            <div id="morris2" style="height:250px;"></div>
+
+        </div>
+    </div><!-- /col-md-6-->
+
+</div>
+<!--End row-->
+@* Transacciones Recientes *@
+<!-- Start inbox widget-->
+<div class="col-md-4">
+    <div class="white-box">
+        <h2 class="header-title">Records Recientes</h2>
+        <div class="inbox-widget inbox-scroll-list">
+
+            @foreach (var item in ViewBag.records)
+            {
+                <div class="inbox-inner">
+                    <a href="#">
+                        <div class="inbox-item">
+                            <div class="inbox-img">
+                                <i class="@(item.PaymentType == true ? "icon-arrow-up-circle green" : " icon-arrow-down-circle red")"></i>
+                            </div>
+
+                            <div class="inbox-item-info">
+                                <p class="author">@item.Category.CategoryName</p>
+                                <p class="inbox-message">@item.Account.AccountName</p>
+                                <p class="inbox-date">@item.RecordDate.ToShortDateString()</p>
+                                <p class="record-amount">@(item.PaymentType == true ? "+" : "-") @item.Currency.CurrencyName  @item.Amount</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!-- Start timeline-->
+<div class="col-md-8">
+    <div class="white-box">
+
+        <h2 class="header-title">Gastos por Categoria</h2>
+        <ul class="list-unstyled">
+
+            @foreach (var item in expensesByCategory)
+            {
+                <li class="expenses-by-category-wrap">
+                    <div>
+                        <div class="icon-expense-category  bg-primary"> <i class="category-icon  @item.Category.CategoryIcon"></i></div>
+
+                        <span>@item.Category.CategoryName</span>
+                    </div>
+                    <div>
+                      - @item.Currency.CurrencyName @item.Amount
+                        <br />
+                        @item.RecordDate.ToShortDateString()
+                    </div>
+                </li>
+            }
+        </ul>
+
+    </div>
+</div>
+<!-- End timeline-->
+<!-- End inbox widget-->
+@* Transacciones recientes *@
+
+@section scripts{
+    <!--Begin Page Level Plugin-->
+    <script src="/assets/plugins/morris-chart/morris.js"></script>
+    <script src="/assets/plugins/morris-chart/raphael-min.js"></script>
+    <script src="/assets/plugins/jquery-sparkline/jquery.sparkline.min.html"></script>
+    <script src="/assets/pages/dashboard.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <!--End Page Level Plugin-->
+}

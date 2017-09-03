@@ -1,0 +1,52 @@
+@model NicaWallet.Models.RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
+}
+
+<section class="login-section">
+    <div class="container">
+        <div class="row">
+            <div class="login-wrapper">
+                <div class="login-inner">
+
+                    <div class="custom-logo-login">
+                        <i class="icon-wallet"></i>
+                        <div>NICAWALLET</div>
+                    </div>
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="Sign Up" class="btn btn-primary btn-block outline-btn round">
+                        </div>
+
+                        <div class="form-group text-center">
+                            Already have an account? <a href="/Account/Login"> Iniciar Sesion</a>
+                        </div>
+
+                    }
+
+                    <div class="copy-text">
+                        <p class="m-0">2017 &copy; NicaWallet</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
