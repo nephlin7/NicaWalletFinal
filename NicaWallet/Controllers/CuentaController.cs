@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace NicaWallet.Controllers
 {
+[Authorize]
     public class CuentaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
