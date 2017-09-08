@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using NicaWallet.Models;
+using Microsoft.AspNet.Identity;
 
 namespace NicaWallet.Controllers
 {
@@ -19,8 +20,13 @@ namespace NicaWallet.Controllers
         public ActionResult Index()
         {
 
-            var accountId = Convert.ToInt32(Request.QueryString["accountId"]);
-            List<Record> record = db.Record.Include(r => r.Account).Include(r => r.Category).Include(r => r.Currency).ToList();
+            //var accountId = Convert.ToInt32(Request.QueryString["accountId"]);
+            string userId = User.Identity.GetUserId();
+            var test = (from x in db.Account
+                        where x.UserId == userId 
+                        select x.AccountId).SingleOrDefault();
+            int accountId = Convert.ToInt32(test);
+            List<Record> record = db.Record.Include(r => r.Account).Include(r => r.Category).Include(r => r.Currency).Where(x => x.AccountId == accountId).ToList();
             if (accountId > 0)
             {
                 var record2 = (from Record in record.Where(x => x.AccountId.Equals(accountId)) select Record);
@@ -70,9 +76,6 @@ namespace NicaWallet.Controllers
                 }
                 return RedirectToAction("Index");
             }
-
-
-
             ViewBag.AccountId = new SelectList(db.Account, "AccountId", "AccountName", record.AccountId);
             ViewBag.CategoryId = new SelectList(db.Category, "CategoryId", "CategoryName", record.CategoryId);
             ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName", record.CurrencyId);
@@ -87,14 +90,24 @@ namespace NicaWallet.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Record record = db.Record.Find(id);
-            if (record == null)
+            string userId = User.Identity.GetUserId();
+            var account = (from x in db.Account where x.AccountId == record.AccountId && x.UserId == userId select x).FirstOrDefault();
+            //if(record.)
+            if (account != null)
             {
-                return HttpNotFound();
+                if (record == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.AccountId = new SelectList(db.Account, "AccountId", "AccountName", record.AccountId);
+                ViewBag.CategoryId = new SelectList(db.Category, "CategoryId", "CategoryName", record.CategoryId);
+                ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName", record.CurrencyId);
+                return View(record);
             }
-            ViewBag.AccountId = new SelectList(db.Account, "AccountId", "AccountName", record.AccountId);
-            ViewBag.CategoryId = new SelectList(db.Category, "CategoryId", "CategoryName", record.CategoryId);
-            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName", record.CurrencyId);
-            return View(record);
+            else
+            {                
+                return RedirectToAction("Index", "Dashboard");
+            }
         }
 
         // POST: Records/Edit/5
