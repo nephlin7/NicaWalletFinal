@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace NicaWallet.Models
 {
     public class ExternalLoginConfirmationViewModel
@@ -64,10 +65,17 @@ namespace NicaWallet.Models
 
     public class RegisterViewModel
     {
+      
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
+        //[System.Web.Mvc.Remote("IsUserNameExist", "Validation", ErrorMessage = "Nombre de usuario ya existe")]
         public string Email { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "Please enter valid integer Number")]
+        public int Edad { get; set; }
+
+        public int Phone { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]

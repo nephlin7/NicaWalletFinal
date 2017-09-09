@@ -20,24 +20,30 @@
                         @Html.ValidationSummary()
                         <div class="form-group">
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Username" })
+                            @Html.ValidationMessageFor(m => m.Email,"", new { @class = "text-danger" })
                         </div>
-
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Edad, new { @class = "form-control", @placeholder = "Edad" })
+                            @Html.ValidationMessageFor(m => m.Edad, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @placeholder = "Telefono" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                        </div>
                         <div class="form-group">
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
-
                         <div class="form-group">
                             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                         </div>
-
                         <div class="form-group">
                             <input type="submit" value="Sign Up" class="btn btn-primary btn-block outline-btn round">
                         </div>
-
-                        <div class="form-group text-center">
-                            Already have an account? <a href="/Account/Login"> Iniciar Sesion</a>
-                        </div>
-
+                            <div class="form-group text-center">
+                                Already have an account? <a href="/Account/Login"> Iniciar Sesion</a>
+                            </div>
                     }
 
                     <div class="copy-text">
