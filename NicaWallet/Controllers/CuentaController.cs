@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace NicaWallet.Controllers
 {
-[Authorize]
+    [Authorize]
     public class CuentaController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,7 +19,8 @@ namespace NicaWallet.Controllers
         // GET: Cuenta
         public ActionResult Index()
         {
-            var account = db.Account.Include(a => a.AccountType).Include(a => a.Currency);
+            string userId = User.Identity.GetUserId();
+            var account = db.Account.Include(a => a.AccountType).Include(a => a.Currency).Where(x => x.UserId == userId);
             return View(account.ToList());
         }
 
@@ -30,7 +31,8 @@ namespace NicaWallet.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Account account = db.Account.Find(id);
+            string userId = User.Identity.GetUserId();
+            var account = db.Account.Where(x => x.UserId == userId && x.AccountId == id);
             if (account == null)
             {
                 return HttpNotFound();
@@ -88,13 +90,22 @@ namespace NicaWallet.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Account account = db.Account.Find(id);
-            if (account == null)
+            string userId = User.Identity.GetUserId();
+            if (account.UserId == userId)
             {
-                return HttpNotFound();
+                if (account == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.AccountTypeId = new SelectList(db.AccountType, "AccountTypeId", "AccountTypeName", account.AccountTypeId);
+                ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName", account.CurrencyId);
+                return View(account);
             }
-            ViewBag.AccountTypeId = new SelectList(db.AccountType, "AccountTypeId", "AccountTypeName", account.AccountTypeId);
-            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName", account.CurrencyId);
-            return View(account);
+            else
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
         }
 
         // POST: Cuenta/Edit/5
