@@ -233,6 +233,10 @@
     <Compile Include="Migrations\201709031329278_final-populate.Designer.cs">
       <DependentUpon>201709031329278_final-populate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709092150571_category userId.cs" />
+    <Compile Include="Migrations\201709092150571_category userId.Designer.cs">
+      <DependentUpon>201709092150571_category userId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\AccountType.cs" />
@@ -563,6 +567,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709031329278_final-populate.resx">
       <DependentUpon>201709031329278_final-populate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709092150571_category userId.resx">
+      <DependentUpon>201709092150571_category userId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

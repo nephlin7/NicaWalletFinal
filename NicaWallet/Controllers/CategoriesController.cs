@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using NicaWallet.Models;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace NicaWallet.Controllers
 {
@@ -15,23 +16,26 @@ namespace NicaWallet.Controllers
         //GET: Admin
         public ActionResult Index()
         {
-            var listCategory = dbContext.Category.ToList();
+            string userId = User.Identity.GetUserId();
+            var listCategory = dbContext.Category.Where(x => x.IsParent == true || x.UserId == userId).ToList();
             return View(listCategory);
         }
 
         [HttpPost]
         public ActionResult CreateCategory(Category c)
         {
+            string userId = User.Identity.GetUserId();
             var cat = new Category
             {
                 CategoryName = c.CategoryName,
                 ParentId = c.ParentId,
-                IsParent = (c.ParentId != null ? false : true)
+                IsParent = (c.ParentId != null ? false : true),
+                UserId = userId
             };
             dbContext.Category.Add(cat);
             dbContext.SaveChanges();
 
-            return RedirectToAction("Category");
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public ActionResult UpdateCategory(int categoryId)

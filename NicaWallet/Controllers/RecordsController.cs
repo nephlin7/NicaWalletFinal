@@ -19,11 +19,10 @@ namespace NicaWallet.Controllers
         // GET: Records
         public ActionResult Index()
         {
-
-            //var accountId = Convert.ToInt32(Request.QueryString["accountId"]);
+            
             string userId = User.Identity.GetUserId();
             var test = (from x in db.Account
-                        where x.UserId == userId 
+                        where x.UserId == userId
                         select x.AccountId).SingleOrDefault();
             int accountId = Convert.ToInt32(test);
             List<Record> record = db.Record.Include(r => r.Account).Include(r => r.Category).Include(r => r.Currency).Where(x => x.AccountId == accountId).ToList();
@@ -32,17 +31,26 @@ namespace NicaWallet.Controllers
                 var record2 = (from Record in record.Where(x => x.AccountId.Equals(accountId)) select Record);
                 return View(record2.ToList());
             }
-
-            return View(record);
+            else
+            {
+                return RedirectToAction("Index", "Cuenta");
+            }
         }
 
         // GET: Records/Create
         public ActionResult Create()
         {
-            ViewBag.AccountId = new SelectList(db.Account, "AccountId", "AccountName");
-            ViewBag.CategoryId = new SelectList(db.Category, "CategoryId", "CategoryName");
-            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName");
-            return View();
+            string userId = User.Identity.GetUserId();
+            var accounts = db.Account.Where(x => x.UserId == userId);
+            if (accounts != null)
+            {
+                FillData(userId);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Cuenta");
+            }
         }
 
 
@@ -105,7 +113,7 @@ namespace NicaWallet.Controllers
                 return View(record);
             }
             else
-            {                
+            {
                 return RedirectToAction("Index", "Dashboard");
             }
         }
@@ -158,6 +166,14 @@ namespace NicaWallet.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+
+        }
+
+        private void FillData(string userId)
+        {
+            ViewBag.AccountId = new SelectList(db.Account.Where(x => x.UserId == userId), "AccountId", "AccountName");
+            ViewBag.CategoryId = new SelectList(db.Category.Where(x => x.UserId == userId || x.IsParent == true), "CategoryId", "CategoryName");
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "CurrencyName");
         }
     }
 }

@@ -14,7 +14,7 @@
     </p>
     <div class="categories-list">
 
-        @foreach (var item in Model.Where(x => x.IsParent == true))
+        @foreach (var item in Model)
         {
             <div class="item">
                 <div class="column-icon">

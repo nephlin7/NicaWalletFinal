@@ -1,15 +1,24 @@
 ﻿@using NicaWallet.Models;
+@using Microsoft.AspNet.Identity;
 @{
 
     ViewBag.Title = "DashBoard";
     ApplicationDbContext dbContext = new ApplicationDbContext();
-    var accountCount = dbContext.Account.Count();
-    var balance = dbContext.Account.Sum(x => x.Amount);
-    var totalEarning = dbContext.Record.Where(x => x.PaymentType == true).Sum(x => x.Amount);
-    var totalExpenses = dbContext.Record.Where(x => x.PaymentType == false).Sum(x => x.Amount);
+    string userId = User.Identity.GetUserId();//Obtenemos el identificador del usuario
+    var account = dbContext.Account.Where(x => x.UserId == userId);
+    var accountCount = account.Count();
+    var balance = account.Sum(x => x.Amount);
+    //var totalEarning = dbContext.Record.Where(x => x.PaymentType == true ).Sum(x => x.Amount);
+    var totalEarning = (from e in dbContext.Record
+                        join a in account on e.AccountId equals a.AccountId
+                        where e.PaymentType == true
+                        select e).Sum(x => x.Amount);
+    var totalExpenses = (from e in dbContext.Record
+                         join a in account on e.AccountId equals a.AccountId
+                         where e.PaymentType == false
+                         select e).Sum(x => x.Amount);
     var expensesByCategory = dbContext.Record.Include("Category").Include("Currency").Where(x => x.PaymentType == false);
 }
-
 <!--Start row-->
 <div class="row">
     <!--Start info box-->
@@ -208,7 +217,7 @@
                         <span>@item.Category.CategoryName</span>
                     </div>
                     <div>
-                      - @item.Currency.CurrencyName @item.Amount
+                        - @item.Currency.CurrencyName @item.Amount
                         <br />
                         @item.RecordDate.ToShortDateString()
                     </div>

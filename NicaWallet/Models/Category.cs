@@ -14,5 +14,8 @@ namespace NicaWallet.Models
         public Nullable<int> ParentId { get; set; }
         public bool? IsParent { get; set; }
         public string CategoryIcon { get; set; }
+        
+        public string UserId { get; set; }
+        
     }
 }
