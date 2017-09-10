@@ -1,0 +1,400 @@
+﻿
+@font-face {
+    font-family: wallet-icons;
+    src: url(fonts/591997b6e6038a335c5f0cd3925e595e.eot);
+    src: url(fonts/591997b6e6038a335c5f0cd3925e595e.eot?#iefix) format("eot"),
+         url(fonts/302ecceb6692fd145c0e64137694198b.woff) format("woff"),  
+         url(fonts/f34667558dd9c79386aa74f0680d9817.ttf) format("truetype");
+    font-weight: 400;
+    font-style: normal
+}
+
+.category-icon:before {
+    display: inline-block;
+    font-family: wallet-icons;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.category-icon-lg {
+    font-size: 1.3333333333333333em;
+    line-height: .75em;
+    vertical-align: -15%
+}
+
+.category-icon-2x {
+    font-size: 2em
+}
+
+.category-icon-3x {
+    font-size: 3em
+}
+
+.category-icon-4x {
+    font-size: 4em
+}
+
+.category-icon-5x {
+    font-size: 5em
+}
+
+.category-icon-fw {
+    width: 1.2857142857142858em;
+    text-align: center
+}
+
+.category-icon-airplane-mode-on-filled:before {
+    content: "\EA01"
+}
+
+.category-icon-apartment-filled:before {
+    content: "\EA02"
+}
+
+.category-icon-applause-filled:before {
+    content: "\EA03"
+}
+
+.category-icon-approval-filled:before {
+    content: "\EA04"
+}
+
+.category-icon-bar-filled:before {
+    content: "\EA05"
+}
+
+.category-icon-barbell-filled:before {
+    content: "\EA06"
+}
+
+.category-icon-beach-filled:before {
+    content: "\EA07"
+}
+
+.category-icon-billing-filled:before {
+    content: "\EA08"
+}
+
+.category-icon-birthday-filled:before {
+    content: "\EA09"
+}
+
+.category-icon-bookmark-filled:before {
+    content: "\EA0A"
+}
+
+.category-icon-borrow-book-filled:before {
+    content: "\EA0B"
+}
+
+.category-icon-bullish-filled:before {
+    content: "\EA0C"
+}
+
+.category-icon-bungalow-filled:before {
+    content: "\EA0D"
+}
+
+.category-icon-bus-filled:before {
+    content: "\EA0E"
+}
+
+.category-icon-business-filled:before {
+    content: "\EA0F"
+}
+
+.category-icon-car-filled:before {
+    content: "\EA10"
+}
+
+.category-icon-car-insurance-card-filled:before {
+    content: "\EA11"
+}
+
+.category-icon-cat-footprint-filled:before {
+    content: "\EA12"
+}
+
+.category-icon-check-book-filled:before {
+    content: "\EA13"
+}
+
+.category-icon-coins-filled:before {
+    content: "\EA14"
+}
+
+.category-icon-collect-filled:before {
+    content: "\EA15"
+}
+
+.category-icon-computer-filled:before {
+    content: "\EA16"
+}
+
+.category-icon-cream-tube-filled:before {
+    content: "\EA17"
+}
+
+.category-icon-crowdfunding-filled:before {
+    content: "\EA18"
+}
+
+.category-icon-customs-officer-filled:before {
+    content: "\EA19"
+}
+
+.category-icon-design-filled:before {
+    content: "\EA1A"
+}
+
+.category-icon-diamond:before {
+    content: "\EA1B"
+}
+
+.category-icon-dice-filled:before {
+    content: "\EA1C"
+}
+
+.category-icon-doctor-male-filled:before {
+    content: "\EA1D"
+}
+
+.category-icon-electronic-identity-card-filled:before {
+    content: "\EA1E"
+}
+
+.category-icon-expensive-2-filled:before {
+    content: "\EA1F"
+}
+
+.category-icon-exterior-filled:before {
+    content: "\EA20"
+}
+
+.category-icon-f1-race-car-side-view-filled:before {
+    content: "\EA21"
+}
+
+.category-icon-feed-out-filled:before {
+    content: "\EA22"
+}
+
+.category-icon-fires-filled:before {
+    content: "\EA23"
+}
+
+.category-icon-gas-station-filled:before {
+    content: "\EA24"
+}
+
+.category-icon-ghost-filled:before {
+    content: "\EA25"
+}
+
+.category-icon-gift-filled:before {
+    content: "\EA26"
+}
+
+.category-icon-hammer-filled:before {
+    content: "\EA27"
+}
+
+.category-icon-happy-filled:before {
+    content: "\EA28"
+}
+
+.category-icon-help-filled:before {
+    content: "\EA29"
+}
+
+.category-icon-home-automation-filled:before {
+    content: "\EA2A"
+}
+
+.category-icon-idea-filled:before {
+    content: "\EA2B"
+}
+
+.category-icon-imac-filled:before {
+    content: "\EA2C"
+}
+
+.category-icon-key-2-filled:before {
+    content: "\EA2D"
+}
+
+.category-icon-key-filled:before {
+    content: "\EA2E"
+}
+
+.category-icon-like-filled:before {
+    content: "\EA2F"
+}
+
+.category-icon-loyalty-card-filled:before {
+    content: "\EA30"
+}
+
+.category-icon-man-filled:before {
+    content: "\EA31"
+}
+
+.category-icon-menu-filled:before {
+    content: "\EA32"
+}
+
+.category-icon-message-filled:before {
+    content: "\EA33"
+}
+
+.category-icon-money-bag-filled:before {
+    content: "\EA34"
+}
+
+.category-icon-money-box-filled:before {
+    content: "\EA35"
+}
+
+.category-icon-money-filled:before {
+    content: "\EA36"
+}
+
+.category-icon-money-transfer-filled:before {
+    content: "\EA37"
+}
+
+.category-icon-move-stock-filled:before {
+    content: "\EA38"
+}
+
+.category-icon-natural-user-interface-2-filled:before {
+    content: "\EA39"
+}
+
+.category-icon-news-filled:before {
+    content: "\EA3A"
+}
+
+.category-icon-parking-filled:before {
+    content: "\EA3B"
+}
+
+.category-icon-payment-history-filled:before {
+    content: "\EA3C"
+}
+
+.category-icon-phone-filled:before {
+    content: "\EA3D"
+}
+
+.category-icon-receive-cash-filled:before {
+    content: "\EA3E"
+}
+
+.category-icon-restaurant-filled:before {
+    content: "\EA3F"
+}
+
+.category-icon-retro-tv-filled:before {
+    content: "\EA40"
+}
+
+.category-icon-return-filled:before {
+    content: "\EA41"
+}
+
+.category-icon-romper-filled:before {
+    content: "\EA42"
+}
+
+.category-icon-safe-filled:before {
+    content: "\EA43"
+}
+
+.category-icon-save-the-children-filled:before {
+    content: "\EA44"
+}
+
+.category-icon-sell-property-filled:before {
+    content: "\EA45"
+}
+
+.category-icon-service-bell-filled:before {
+    content: "\EA46"
+}
+
+.category-icon-settings-filled:before {
+    content: "\EA47"
+}
+
+.category-icon-shopping-bag-filled:before {
+    content: "\EA48"
+}
+
+.category-icon-shopping-basket-filled:before {
+    content: "\EA49"
+}
+
+.category-icon-software-installer-filled:before {
+    content: "\EA4A"
+}
+
+.category-icon-sorting-arrows-horizontal-filled:before {
+    content: "\EA4B"
+}
+
+.category-icon-spa-flower-filled:before {
+    content: "\EA4C"
+}
+
+.category-icon-stroller-filled:before {
+    content: "\EA4D"
+}
+
+.category-icon-student-male-filled:before {
+    content: "\EA4E"
+}
+
+.category-icon-support-filled:before {
+    content: "\EA4F"
+}
+
+.category-icon-t-shirt-filled:before {
+    content: "\EA50"
+}
+
+.category-icon-tax-filled:before {
+    content: "\EA51"
+}
+
+.category-icon-taxi-filled:before {
+    content: "\EA52"
+}
+
+.category-icon-toothbrush-filled:before {
+    content: "\EA53"
+}
+
+.category-icon-tram-filled:before {
+    content: "\EA54"
+}
+
+.category-icon-vegetarian-food-filled:before {
+    content: "\EA55"
+}
+
+.category-icon-voice-presentation-filled:before {
+    content: "\EA56"
+}
+
+.category-icon-wi-fi-filled:before {
+    content: "\EA57"
+}
+
+.category-icon-wine-bottle-filled:before {
+    content: "\EA58"
+}
